@@ -1,0 +1,63 @@
+data = {
+  "Folder": {
+    "subItems": [
+      {
+        "Folder": {
+          "subItems": [],
+          "item": {
+            "id": 2,
+            "name": "SubFolder",
+            "createDate": "04/09/2021",
+            "creator": "Thinh Le Tat",
+            "modifiedAt": "",
+            "modifedBy": ""
+          }
+        }
+      }
+    ],
+    "item": {
+      "id": 1,
+      "name": "CAS",
+      "createDate": "04/09/2021",
+      "creator": "An Tran Hoang",
+      "modifiedAt": "",
+      "modifedBy": ""
+    }
+  },
+
+  "File": [
+    {
+      "extension": ".doc",
+      "item": {
+        "id": 1,
+        "name": "reportA",
+        "createDate": "04/09/2021",
+        "creator": "An Tran Hoang",
+        "modifiedAt": "",
+        "modifedBy": ""
+      }
+    },
+    {
+      "extension": ".xlxs",
+      "item": {
+        "id": 2,
+        "name": "reportB",
+        "createDate": "04/09/2021",
+        "creator": "An Tran Hoang",
+        "modifiedAt": "",
+        "modifedBy": ""
+      }
+    },
+    {
+      "extension": ".xlxs",
+      "item": {
+        "id": 3,
+        "name": "reportC",
+        "createDate": "04/09/2021",
+        "creator": "An Tran Hoang",
+        "modifiedAt": "",
+        "modifedBy": ""
+      }
+    }
+  ]
+}
