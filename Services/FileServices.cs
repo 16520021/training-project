@@ -10,14 +10,10 @@ using training_project.Models.Context;
 
 namespace training_project.Services
 {
-    public class FileServices : IFileService
+    public class FileServices : BaseServiceContext, IFileService
     {
-        private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
-        public FileServices(AppDbContext context, IMapper mapper)
+        public FileServices(AppDbContext context, IMapper mapper) : base(context, mapper)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
         #region PUBLIC METHOD

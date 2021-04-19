@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using training_project.Dto.File;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,7 +19,7 @@ namespace training_project.Controllers
         }
         // GET: api/<FileController>
         [HttpGet]
-        public IEnumerable<FileDto> GetFiles(FileFilter input)
+        public IEnumerable<FileDto> GetFiles([FromQuery] FileFilter input)
         {
             var result = fileService.GetFiles(input);
             Console.WriteLine(result);

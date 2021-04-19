@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using training_project.Dto.File;
+using training_project.Dto.Folder;
 
 namespace training_project.Models.Context
 {
@@ -13,6 +10,9 @@ namespace training_project.Models.Context
         {
             CreateMap<FileDto, File>();
             CreateMap<File, FileDto>();
+
+            CreateMap<FolderDto, Folder>();
+            CreateMap<Folder, FolderDto>();
         }
     }
 }
