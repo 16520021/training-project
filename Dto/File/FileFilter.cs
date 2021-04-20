@@ -9,6 +9,6 @@ namespace training_project.Dto.File
     {
         public string fileName { get; set; }
         public string extension { get; set; }
-        public int folderid { get; set; }
+        public int parent { get; set; }
     }
 }

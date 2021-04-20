@@ -22,7 +22,6 @@ namespace training_project.Controllers
         public IEnumerable<FileDto> GetFiles([FromQuery] FileFilter input)
         {
             var result = fileService.GetFiles(input);
-            Console.WriteLine(result);
             return result;
         }
 
@@ -33,7 +32,7 @@ namespace training_project.Controllers
             return fileService.GetFileForEdit(id);
         }
 
-        [HttpPost]
+        [HttpPut]
         public void CreateOrEditFile(FileDto fileinput)
         {
             fileService.CreateOrEditFile(fileinput);

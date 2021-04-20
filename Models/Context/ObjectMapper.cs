@@ -10,7 +10,6 @@ namespace training_project.Models.Context
         {
             CreateMap<FileDto, File>();
             CreateMap<File, FileDto>();
-
             CreateMap<FolderDto, Folder>();
             CreateMap<Folder, FolderDto>();
         }

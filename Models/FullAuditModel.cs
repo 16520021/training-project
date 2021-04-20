@@ -12,7 +12,7 @@ namespace training_project.Models
         public int id { get; set; }
         public string owner { get; set; }
         public string createAt { get; set; }
-        public string modifedAt { get; set; }
+        public string modifiedAt { get; set; }
         public string modifiedBy { get; set; }
         public bool isDeleted { get; set; }
     }

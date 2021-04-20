@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using training_project.Models.Context;
 
 namespace training_project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210419090459_Add fk id")]
+    partial class Addfkid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +43,7 @@ namespace training_project.Migrations
                     b.Property<bool>("isDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("modifiedAt")
+                    b.Property<string>("modifedAt")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("modifiedBy")
@@ -76,7 +78,7 @@ namespace training_project.Migrations
                     b.Property<bool>("isDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("modifiedAt")
+                    b.Property<string>("modifedAt")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("modifiedBy")

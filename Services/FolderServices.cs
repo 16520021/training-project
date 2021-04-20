@@ -52,6 +52,9 @@ namespace training_project.Services
                 if (input.parentID != 0)
                 {
                     query = query.Where(x => x.parentID == input.parentID);
+                } else
+                {
+                    query = query.Where(x => x.parentID == null);
                 }
             }
 
@@ -80,7 +83,9 @@ namespace training_project.Services
             var folderEntity = _context.Folders.Where(x => !x.isDeleted).SingleOrDefault(x => x.id == folder.id);
             if (folderEntity != null)
             {
-                folderEntity = _mapper.Map<Folder>(folder);
+                _mapper.Map<FolderDto,Folder>(folder, folderEntity);
+                //_context.Set<Folder>().Update(folderEntity);
+                //folderEntity.folderName = "antran";
                 _context.SaveChanges();
             }
         }

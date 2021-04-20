@@ -18,19 +18,25 @@ export class RenderTemplate {
 
     for (let i = 0; i <= this.ordering.length; i += 1) {
       // Render content
-      const cell = row.insertCell(-1);
-      if (this.ordering[i] === 'icon') {
-        cell.className = 'pl-md-5';
-        const imgNode = document.createElement('img');
-        imgNode.className = 'icon';
-        imgNode.src = map.get('icon');
-        cell.appendChild(imgNode);
-        continue;
+      if (map.get(this.ordering[i]) !== undefined) {
+        const cell = row.insertCell(-1);
+        if (this.ordering[i] === 'icon') {
+          cell.className = 'pl-md-5';
+          const imgNode = document.createElement('img');
+          imgNode.className = 'icon';
+          imgNode.src = map.get('icon');
+          cell.appendChild(imgNode);
+          continue;
+        }
+        // Hide ID col
+        if (this.ordering[i] === 'id') {
+          cell.className = 'd-none';
+        }
+        cell.innerHTML = map.get(this.ordering[i]);
       }
-      // Hide ID col
-      if (this.ordering[i] === 'id') cell.className = 'd-none';
       // Ultility button
       if (i === this.ordering.length) {
+        const cell = row.insertCell(-1);
         const editBtn = document.createElement('button');
         editBtn.className = 'edit';
         const editText = document.createElement('span');
@@ -44,7 +50,7 @@ export class RenderTemplate {
         closeIco.innerHTML = '&times;';
         closeBtn.appendChild(closeIco);
         cell.appendChild(closeBtn);
-      } else cell.innerHTML = map.get(this.ordering[i]);
+      }
     }
 
     return row;

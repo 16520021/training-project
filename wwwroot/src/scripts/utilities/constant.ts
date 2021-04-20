@@ -1,10 +1,18 @@
 export const properties = {
   CREATE_MODE: 'create',
   EDIT_MODE: 'edit',
-  ORDERING: ['icon', 'name', 'createDate', 'creator', 'id'],
-  BASE_DIRECTORY: 'root',
-  FILE_PREFIX: 'file-',
-  FOLDER_PREFIX: 'folder-',
+  ORDERING: [
+    'icon',
+    'folderName',
+    'fileName',
+    'createAt',
+    'owner',
+    'id',
+  ],
+  BASE_DIRECTORY: null,
+  FILE_TYPE: 'file',
+  FOLDER_TYPE: 'folder',
   FILE_DEFAULT_URL: './dist/image/excel.png',
   FOLDER_DEFAULT_URL: './dist/image/folder.png',
+  BASE_API_URL: 'http://localhost:64557/api/',
 };

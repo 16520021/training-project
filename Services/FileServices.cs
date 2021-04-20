@@ -61,10 +61,7 @@ namespace training_project.Services
                     query = query.Where(x => x.extension == input.extension);
                 }
 
-                if (input.folderid != 0)
-                {
-                    query = query.Where(x => x.folder.id == input.folderid);
-                }
+                query = query.Where(x => x.parent == input.parent);
             }
 
             var listOfFile = query.OrderBy(x => x.fileName).ToList();
@@ -77,6 +74,8 @@ namespace training_project.Services
         private void Create(FileDto file)
         {
             var fileEntity = _mapper.Map<File>(file);
+            if (file.parent != 0)
+                fileEntity.folder = _context.Folders.Where(x => x.id == file.parent).SingleOrDefault();
             _context.Files.Add(fileEntity);
             _context.SaveChanges();
         }
@@ -86,7 +85,7 @@ namespace training_project.Services
             var fileEntity = _context.Files.Where(x => !x.isDeleted).SingleOrDefault(x => x.id == file.id);
             if (fileEntity != null)
             {
-                fileEntity = _mapper.Map<File>(file);
+                _mapper.Map<FileDto,File>(file, fileEntity);
                 _context.SaveChanges();
             }
         }
