@@ -32,7 +32,6 @@ export class FileDto extends Item {
     if (input.extension) this.extension = input.extension;
     if (input.icon) this.icon = input.icon;
     if (input.parent) this.parent = input.parent;
-    console.log(input, this);
     // super.mapping(input);
     // if (input.extension) this.extension = input.extension;
   }

@@ -14,6 +14,7 @@ let currentDir = '';
 let template = new RenderTemplate(<HTMLTableElement>document.getElementById("content-table"), properties.ORDERING);
 let clickedRow: string = '0';
 let hoverRow: string = '';
+let parentFolderId: number = 0;
 let editMode: boolean = false;
 
 
@@ -25,7 +26,7 @@ ready(() => {
     let submitButton: HTMLButtonElement = <HTMLButtonElement>document.getElementsByClassName('btn-add')[0];
     addItemEvent(submitButton);
     //checkboxEvent();
-/*    backEvent();*/
+    backEvent();
 });
 
 /**
@@ -40,7 +41,7 @@ function generateData(input: Array<any>, type: string) {
         item.mapping(input[i]);
         let row = template.render(item);
         let id = row.cells[row.cells.length - 2].textContent;
-        attachOnclickFolder(id, row);
+        if(properties.FOLDER_TYPE) attachOnclickFolder(id, row);
         getRowIdOnHover(id, row);
         attachRemoveItemEvent(row);
         attachEditEvent(row);
@@ -89,13 +90,14 @@ function attachOnclickFolder(id: string, tr: HTMLTableRowElement) {
         filter.parent = parseInt(id);
         console.log(filter.parent);
         getData(properties.BASE_API_URL + 'File/GetFiles?', filter).then(data => {
-           generateData(data, properties.FILE_TYPE);
+            generateData(data, properties.FILE_TYPE);
         });
 
         let foldFilter: FolderFilter = new FolderFilter();
         foldFilter.parentID = parseInt(id);
         getData(properties.BASE_API_URL + 'Folder/GetFolders?', foldFilter).then(data => {
-           generateData(data, properties.FOLDER_TYPE);
+            generateData(data, properties.FOLDER_TYPE);
+            console.log(data);
         });
         clickedRow = id;
         // forwardCurrentDirectory(fold.name);
@@ -145,10 +147,11 @@ function addItemEvent(btn: HTMLButtonElement) {
             } else {
                 let folder: FolderDto = new FolderDto();
                 folder.createAt = getCurrentDate();
-                folder.parentID = parseInt(clickedRow);
+                if (clickedRow == null) folder.parentID = null;
+                else folder.parentID = parseInt(clickedRow);
                 folder.owner = 'An Tran Hoang';
                 folder.folderName = name;
-                console.log(folder.folderName);
+                console.log(folder);
                 putData(properties.BASE_API_URL + 'Folder/CreateOrEditFolder?', folder).finally(() => refresh());
             }
         } else {
@@ -157,16 +160,16 @@ function addItemEvent(btn: HTMLButtonElement) {
                     data.fileName = name;
                     data.modifiedAt = getCurrentDate();
                     data.modifiedBy = "Thinh tre trau";
-                    putData(properties.BASE_API_URL + 'File/CreateOrEditFile?', data).then(() => refresh());
-                }).finally(() => refresh());
+                    putData(properties.BASE_API_URL + 'File/CreateOrEditFile?', data).finally(() => refresh());
+                });
             } else {
                 getData(properties.BASE_API_URL + 'Folder/GetFolderById/' + hoverRow, {}).then(data => {
                     console.log(data);
                     data.folderName = name;
                     data.modifiedAt = getCurrentDate();
                     data.modifiedBy = "Thinh tre trau";
-                    putData(properties.BASE_API_URL + 'Folder/CreateOrEditFolder?', data).then(() => refresh());
-                }).finally(() => refresh());
+                    putData(properties.BASE_API_URL + 'Folder/CreateOrEditFolder?', data).finally(() => refresh());
+                });
             }
 
             editMode = false;
@@ -254,23 +257,19 @@ function attachEditEvent(tr: HTMLTableRowElement) {
 /**
  * Event for back button
  */
-//function backEvent() {
-//    document.getElementById('back-btn').onclick = function () {
-//        backwardCurrentDirectory();
-//        if (clickedRow !== properties.BASE_DIRECTORY) {
-//            let currentFold: Folder = new Folder();
-//            currentFold.mapping(getItemById(clickedRow));
-
-//            if (currentFold.parent !== properties.BASE_DIRECTORY) {
-//                let parentFolder: Folder = new Folder();
-//                parentFolder.mapping(getItemById(currentFold.parent));
-//            }
-
-//            clickedRow = currentFold.parent;
-//        }
-//        refresh();
-//    }
-//}
+function backEvent() {
+    document.getElementById('back-btn').onclick = function () {
+        if (clickedRow !== properties.BASE_DIRECTORY) {
+            getData(properties.BASE_API_URL + 'Folder/GetFolderById/' + clickedRow, {}).then(data => {
+                console.log(clickedRow, data);
+                if (data.parentID != null)
+                    clickedRow = data.parentID;
+                else clickedRow = '0';
+                refresh();
+            });
+        }
+    }
+}
 
 function refresh() {
     clearCurrentData();
