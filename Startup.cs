@@ -1,24 +1,19 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using training_project.Dto.File;
 using training_project.Dto.Folder;
 using training_project.Models.Context;
 using training_project.Services;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 
 namespace training_project
 {
@@ -33,19 +28,23 @@ namespace training_project
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //Azure Service
-            //services.AddAuthentication(AzureADDefaults.AuthenticationScheme).AddAzureAD(options => Configuration.Bind("AzureAd", options));
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
+            });
+            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
 
-            //services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, options =>
-            //{
-            //    options.Authority = options.Authority + "v2.0";
-            //    options.TokenValidationParameters.ValidateIssuer = true;
-            //});
-            //services.AddMvc(options =>
-            //{
-            //    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-            //    options.Filters.Add(new AuthorizeFilter(policy));
-            //}).SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Latest);
+            services.AddControllersWithViews(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
+            services.AddRazorPages()
+                .AddMicrosoftIdentityUI();
             services.AddControllers();
             services.AddSwaggerGen(options =>
             {

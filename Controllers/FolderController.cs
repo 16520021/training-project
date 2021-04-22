@@ -36,6 +36,7 @@ namespace training_project.Controllers
         [HttpPut]
         public void CreateOrEditFolder(FolderDto folderinput)
         {
+            folderinput.modifiedBy = User.Identity.Name;
             folderService.CreateOrEditFolder(folderinput);
         }
 

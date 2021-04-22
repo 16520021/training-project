@@ -35,6 +35,7 @@ namespace training_project.Controllers
         [HttpPut]
         public void CreateOrEditFile(FileDto fileinput)
         {
+            fileinput.modifiedBy = User.Identity.Name;
             fileService.CreateOrEditFile(fileinput);
         }
 
